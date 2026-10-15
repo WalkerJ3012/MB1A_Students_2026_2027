@@ -1,0 +1,26 @@
+---
+title: "Data Analysis"
+author: "Jace Walker"
+format: html
+---
+
+## Exercise - Reading UK public health monitoring data
+
+```{r}
+library(tidyverse)
+library(gt)
+influenza_data <- read_csv("data/influenza_data.csv")
+gt(head(influenza_data))
+```
+
+## Exercise - Plotting public health data
+```{r}
+ggplot(influenza_data, aes(
+  x = date,
+  y = metric_value
+)) +
+  geom_line(colour = "blue") +
+  xlab("Date") +
+  ylab("Weekly positivity") +
+  ggtitle("Weekly Positivity of people taking a PCR test for Influenza")
+```

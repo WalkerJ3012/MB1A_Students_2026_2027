@@ -3,6 +3,10 @@ title: "Exercises"
 author: "Jace Walker"
 format: html
 ---
+```{r}
+library(tidyverse)
+library(gt)
+```
 
 ## Exercise - Using functions
 ```{r}
@@ -10,7 +14,7 @@ round(3.14159, 0)
 ```
 ## Exercise - Argument order
 ```{r}
-rep(5,7)
+rep(5, 7)
 ```
 ## Exercise - Assigning values to variables
 It would be 5.
@@ -20,6 +24,7 @@ some_text <- "This is some wonderful text."
 some_numbers <- 12345
 some_boolean <- FALSE
 
+
 some_text
 some_numbers
 some_boolean
@@ -28,7 +33,7 @@ class(some_text)
 class(some_numbers)
 class(some_boolean)
 ```
-## ExerciseExercise - Using variables of different types
+## Exercise - Using variables of different types
 ```{r}
 cell_ID_1 <- "CX1"
 cell_ID_2 <- "CX2"
@@ -39,5 +44,37 @@ num_cells_before_2 <- 8123
 num_cells_after_1 <- 1432
 num_cells_after_2 <- 7543
 ```
-Would probably be better to use a frame.
+~~Would probably be better to use a frame.~~
 
+## Exercise - Vectors
+```{r}
+cell_ID <- c(cell_ID_1, cell_ID_2)
+is_treated <- c(is_treated_1, is_treated_2)
+num_cells_before <- c(num_cells_before_1, num_cells_before_2)
+num_cells_after <- c(num_cells_after_1, num_cells_after_2)
+```
+## Exercise - Indexing
+```{r}
+all_my_pets <- c("dog", "horse", "guinea pig", "chicken", "cat")
+fourth_pet <- all_my_pets[4]
+fourth_pet
+```
+## Exercise - Vectorisation
+```{r}
+x <- c(2, -4, 6, -2)
+x * 2
+x > 5
+sum(x)
+abs(x)
+```
+## Exercise - Creating a data frame
+```{r}
+cell_data_frame <- tibble(
+  cell_ID,
+  is_treated,
+  num_cells_before,
+  num_cells_after
+)
+
+gt(cell_data_frame)
+```
