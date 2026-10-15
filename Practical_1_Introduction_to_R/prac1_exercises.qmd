@@ -1,0 +1,43 @@
+---
+title: "Exercises"
+author: "Jace Walker"
+format: html
+---
+
+## Exercise - Using functions
+```{r}
+round(3.14159, 0)
+```
+## Exercise - Argument order
+```{r}
+rep(5,7)
+```
+## Exercise - Assigning values to variables
+It would be 5.
+## Exercise - Character, numerical and logical variables
+```{r}
+some_text <- "This is some wonderful text."
+some_numbers <- 12345
+some_boolean <- FALSE
+
+some_text
+some_numbers
+some_boolean
+
+class(some_text)
+class(some_numbers)
+class(some_boolean)
+```
+## ExerciseExercise - Using variables of different types
+```{r}
+cell_ID_1 <- "CX1"
+cell_ID_2 <- "CX2"
+is_treated_1 <- TRUE
+is_treated_2 <- FALSE
+num_cells_before_1 <- 5415
+num_cells_before_2 <- 8123
+num_cells_after_1 <- 1432
+num_cells_after_2 <- 7543
+```
+Would probably be better to use a frame.
+
