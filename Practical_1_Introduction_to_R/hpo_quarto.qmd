@@ -1,0 +1,34 @@
+---
+title: "hpa_quarto"
+author: "Jace Walker"
+format: html
+---
+
+## Information
+
+This code calculates the total number of regionally elevated genes in the forebrain in the following:
+
+* A Human
+* A Pig
+* A Mouse
+
+:::{.callout-note}
+The forebrain consists of the cerebral cortex, basal ganglia, thalamus and hypothalamus.
+:::
+
+## Data and calculations
+
+In Human:
+```{r}
+sum(180, 83, 57, 110)
+```
+In Pig:
+```{r}
+sum(109, 157, 31, 45)
+```
+In Mouse:
+```{r}
+sum(55, 185, 60, 98)
+```
+## Conclusion
+The human was the species with the most regionally elevated expression in the data given.
