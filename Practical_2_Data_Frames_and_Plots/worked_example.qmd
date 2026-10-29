@@ -95,19 +95,27 @@ write_csv(autumn_data, "output/birds_autumn.csv")
 
 ## Creating a Plot for Spring (Like Plot 1B)
 ```{r}
-min_lon <- spring_data |> pull(longitude) |> min()
-max_lon <- spring_data |> pull(longitude) |> max()
-min_lat <- spring_data |> pull(latitude) |> min()
-max_lat <- spring_data |> pull(latitude) |> max()
+min_lon <- spring_data |>
+  pull(longitude) |>
+  min()
+max_lon <- spring_data |>
+  pull(longitude) |>
+  max()
+min_lat <- spring_data |>
+  pull(latitude) |>
+  min()
+max_lat <- spring_data |>
+  pull(latitude) |>
+  max()
 
 
 ggplot(
   spring_data,
-  aes(x = longitude, y = latitude, colour = Site, shape=location_type)
+  aes(x = longitude, y = latitude, colour = Site, shape = location_type)
 ) +
-  geom_point(size=3) +
+  geom_point(size = 3) +
   annotation_borders(linewidth = 0.2) +
-  coord_quickmap(xlim = c(min_lon - 2, max_lon + 2), ylim = c(min_lat -2, max_lat +2)) +
+  coord_quickmap(xlim = c(min_lon - 2, max_lon + 2), ylim = c(min_lat - 2, max_lat + 2)) +
   geom_path(aes(group = Site)) +
   scale_color_brewer(palette = "Set1") +
   ggtitle("Pied Flycatcher Spring Migration Routes") +
@@ -117,19 +125,27 @@ ggplot(
 ```
 ## Creating a Plot for Autumn (Like Plot 1|A)
 ```{r}
-min_lon_autumn <- autumn_data |> pull(longitude) |> min()
-max_lon_autumn <- autumn_data |> pull(longitude) |> max()
-min_lat_autumn <- autumn_data |> pull(latitude) |> min()
-max_lat_autumn <- autumn_data |> pull(latitude) |> max()
+min_lon_autumn <- autumn_data |>
+  pull(longitude) |>
+  min()
+max_lon_autumn <- autumn_data |>
+  pull(longitude) |>
+  max()
+min_lat_autumn <- autumn_data |>
+  pull(latitude) |>
+  min()
+max_lat_autumn <- autumn_data |>
+  pull(latitude) |>
+  max()
 
 
 ggplot(
   autumn_data,
-  aes(x = longitude, y = latitude, colour = Site, shape=location_type)
+  aes(x = longitude, y = latitude, colour = Site, shape = location_type)
 ) +
-  geom_point(size=3) +
+  geom_point(size = 3) +
   annotation_borders(linewidth = 0.2) +
-  coord_quickmap(xlim = c(min_lon_autumn - 2, max_lon_autumn + 2), ylim = c(min_lat_autumn -2, max_lat_autumn +2)) +
+  coord_quickmap(xlim = c(min_lon_autumn - 2, max_lon_autumn + 2), ylim = c(min_lat_autumn - 2, max_lat_autumn + 2)) +
   geom_path(aes(group = Site)) +
   scale_color_brewer(palette = "Set1") +
   ggtitle("Pied Flycatcher Autumn Migration Routes") +

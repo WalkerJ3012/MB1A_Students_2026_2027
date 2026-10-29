@@ -9,8 +9,45 @@ format: html
 #| warning: FALSE
 library(tidyverse)
 library(gt)
-library(maps)
 library(ggplot2)
-library(dplyr)
+library(janitor)
+library(lubridate)
+library(maps)
+```
+## Source Data
+```{r}
+locations <- read.csv("data/cranes_mongolia.csv") |>
+  clean_names() |>
+  mutate(date = as_date(timestamp))
+gt(head(locations))
 ```
 
+## Tidying our Data
+```{r}
+location_plot_data <- locations |>
+  select(date, individual_local_identifier, location_long, location_lat) |>
+  group_by(date, individual_local_identifier) |>
+  summarise(
+    med_lat = median(location_lat, na.rm = TRUE),
+    med_lon = median(location_long, na.rm = TRUE),
+    .groups = "drop_last"
+  ) |>
+  rename(id = individual_local_identifier)
+gt(head(location_plot_data))
+```
+## Creating a plot
+```{r}
+lon_domain <- c(min(pull(location_plot_data, med_lon)) - 2, max(pull(location_plot_data, med_lon)) + 2)
+lat_range <- c(min(pull(location_plot_data, med_lat)) - 2, max(pull(location_plot_data, med_lat)) + 2)
+ggplot(
+  location_plot_data,
+  aes(x = med_lon, y = med_lat, colour = id)
+) +
+  geom_point() +
+  annotation_borders(linewidth = 0.2) +
+  coord_quickmap(xlim = lon_domain, ylim = lat_range) +
+  ggtitle("Movement Data of Cranes in Mongolia") +
+  xlab("Longitude (°)") +
+  ylab("Latitude (°)") +
+  theme_classic()
+```
