@@ -14,14 +14,17 @@ library(ggplot2)
 library(dplyr)
 ```
 
+## Importing Breeding Sites Data
 ```{r}
 bird_breeding_sites <- read.csv("data/breeding_site_locations.csv")
 gt(bird_breeding_sites)
 ```
+## Importing Connectivity Data
 ```{r}
 migratory_connectivity <- read.csv("data/migratory_connectivity_dataset.csv")
 gt(head(migratory_connectivity))
 ```
+## Glimpse Function
 ```{r}
 glimpse(migratory_connectivity)
 ```
@@ -29,21 +32,63 @@ glimpse(migratory_connectivity)
 bird_breeding_selected <- bird_breeding_sites |>
   select(Site, Longitude, Latitude) |>
   distinct() |>
-  rename(Breeding_Longitude = Longitude, Breeding_Latitude = Latitude)
+  rename(breeding_longitude = Longitude, breeding_latitude = Latitude)
 
 gt(bird_breeding_selected)
 ```
+## Selecting DF Columnn
 ```{r}
-bird_migration_selected <- migratory_connectivity |> 
+bird_migration_selected <- migratory_connectivity |>
   select(Site, winterLongitude, winterLatitude, pslon, pslat, iblon, iblat, awestlon, awestlat) |>
   distinct() |>
   rename(winter_longitude = winterLongitude, winter_latitude = winterLatitude, stopover_longitude = pslon, stopover_latitude = pslat, iberian_longitude = iblon, iberian_latitude = iblat, westmost_longitude = awestlon, westmost_latitude = awestlat)
 # gt(head(bird_migration_selected))
 ```
-
+## Filtering DF
 ```{r}
 bird_breeding_exc <- bird_breeding_selected |> filter(Site != "Spain")
 bird_migration_exc <- bird_migration_selected |> filter(Site != "Spain")
+```
+## Group Medians of DF
+```{r}
+bird_migration_group_meds <- bird_migration_exc |> group_by(Site)|>
+  summarise(
+    stopover_latitude = median(stopover_latitude, na.rm = TRUE),
+    stopover_longitude = median(stopover_longitude, na.rm = TRUE),
+    iberian_latitude = median(iberian_latitude, na.rm = TRUE),
+    iberian_longitude = median(iberian_longitude, na.rm = TRUE),
+    westmost_latitude = median(westmost_latitude, na.rm = TRUE),
+    westmost_longitude = median(westmost_longitude, na.rm= TRUE),
+    winter_latitude = median(winter_latitude, na.rm = TRUE),
+    winter_longitude = median(winter_longitude, na.rm= TRUE)
+            )
+gt(bird_migration_group_meds)
+```
+## Joining DFs
+```{r}
+combined_bird_data <- full_join(bird_breeding_exc, bird_migration_group_meds)
+gt(combined_bird_data)
+```
+## Pivoted DF
+```{r}
+combined_bird_piv <- combined_bird_data |>
+  pivot_longer(
+    cols = ends_with(c("_longitude", "_latitude")),
+    names_sep = "_",
+    names_to = c("location_type", ".value")
+  )
+
+gt(combined_bird_piv)
+```
+## Spring and Autumn Subsets
+```{r}
+spring_locations <- c("breeding", "stopover", "winter")
+autumn_locations <- c("breeding", "iberian", "westmost", "winter")
+spring_data <- combined_bird_piv |> filter(location_type %in% spring_locations)
+autumn_data <- combined_bird_piv |> filter(location_type %in% autumn_locations)
+
+write_csv(spring_data, "output/birds_spring.csv")
+write_csv(autumn_data, "output/birds_autumn.csv")
 ```
 
 
