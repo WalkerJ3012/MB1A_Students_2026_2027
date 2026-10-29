@@ -1,0 +1,29 @@
+---
+title: "Practical 2 - Exercises"
+author: "Jace Walker"
+format: html
+---
+
+```{r}
+#| echo: FALSE
+#| warning: FALSE
+library(tidyverse)
+library(gt)
+library(maps)
+library(ggplot2)
+library(dplyr)
+```
+
+```{r}
+input_vec <- c(5, -10, 4, -3)
+result <- mean(input_vec) |> abs() |> round()
+result
+```
+```{r}
+y <- 12
+print(paste("y is equal to 7: ", y == 7))
+print(paste("y less than 15: ", y<15))
+print(paste("y greater than 20: ", y>20))
+print(paste("y less than or equal to 12: ", y<=12))
+```
+

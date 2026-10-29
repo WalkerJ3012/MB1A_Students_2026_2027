@@ -1,0 +1,16 @@
+---
+title: "Practical 2 - Visualisation"
+author: "Jace Walker"
+format: html
+---
+
+```{r}
+#| echo: FALSE
+#| warning: FALSE
+library(tidyverse)
+library(gt)
+library(maps)
+library(ggplot2)
+library(dplyr)
+```
+
