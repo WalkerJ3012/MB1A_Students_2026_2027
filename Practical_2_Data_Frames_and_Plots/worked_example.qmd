@@ -12,6 +12,7 @@ library(gt)
 library(maps)
 library(ggplot2)
 library(dplyr)
+library(RColorBrewer)
 ```
 
 ## Importing Breeding Sites Data
@@ -51,17 +52,18 @@ bird_migration_exc <- bird_migration_selected |> filter(Site != "Spain")
 ```
 ## Group Medians of DF
 ```{r}
-bird_migration_group_meds <- bird_migration_exc |> group_by(Site)|>
+bird_migration_group_meds <- bird_migration_exc |>
+  group_by(Site) |>
   summarise(
     stopover_latitude = median(stopover_latitude, na.rm = TRUE),
     stopover_longitude = median(stopover_longitude, na.rm = TRUE),
     iberian_latitude = median(iberian_latitude, na.rm = TRUE),
     iberian_longitude = median(iberian_longitude, na.rm = TRUE),
     westmost_latitude = median(westmost_latitude, na.rm = TRUE),
-    westmost_longitude = median(westmost_longitude, na.rm= TRUE),
+    westmost_longitude = median(westmost_longitude, na.rm = TRUE),
     winter_latitude = median(winter_latitude, na.rm = TRUE),
-    winter_longitude = median(winter_longitude, na.rm= TRUE)
-            )
+    winter_longitude = median(winter_longitude, na.rm = TRUE)
+  )
 gt(bird_migration_group_meds)
 ```
 ## Joining DFs
@@ -91,4 +93,47 @@ write_csv(spring_data, "output/birds_spring.csv")
 write_csv(autumn_data, "output/birds_autumn.csv")
 ```
 
+## Creating a Plot for Spring (Like Plot 1B)
+```{r}
+min_lon <- spring_data |> pull(longitude) |> min()
+max_lon <- spring_data |> pull(longitude) |> max()
+min_lat <- spring_data |> pull(latitude) |> min()
+max_lat <- spring_data |> pull(latitude) |> max()
 
+
+ggplot(
+  spring_data,
+  aes(x = longitude, y = latitude, colour = Site, shape=location_type)
+) +
+  geom_point(size=3) +
+  annotation_borders(linewidth = 0.2) +
+  coord_quickmap(xlim = c(min_lon - 2, max_lon + 2), ylim = c(min_lat -2, max_lat +2)) +
+  geom_path(aes(group = Site)) +
+  scale_color_brewer(palette = "Set1") +
+  ggtitle("Pied Flycatcher Spring Migration Routes") +
+  xlab("Longitude (°)") +
+  ylab("Latitude (°)") +
+  theme_classic()
+```
+## Creating a Plot for Autumn (Like Plot 1|A)
+```{r}
+min_lon_autumn <- autumn_data |> pull(longitude) |> min()
+max_lon_autumn <- autumn_data |> pull(longitude) |> max()
+min_lat_autumn <- autumn_data |> pull(latitude) |> min()
+max_lat_autumn <- autumn_data |> pull(latitude) |> max()
+
+
+ggplot(
+  autumn_data,
+  aes(x = longitude, y = latitude, colour = Site, shape=location_type)
+) +
+  geom_point(size=3) +
+  annotation_borders(linewidth = 0.2) +
+  coord_quickmap(xlim = c(min_lon_autumn - 2, max_lon_autumn + 2), ylim = c(min_lat_autumn -2, max_lat_autumn +2)) +
+  geom_path(aes(group = Site)) +
+  scale_color_brewer(palette = "Set1") +
+  ggtitle("Pied Flycatcher Autumn Migration Routes") +
+  xlab("Longitude (°)") +
+  ylab("Latitude (°)") +
+  theme_classic()
+```
